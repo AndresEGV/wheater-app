@@ -1,10 +1,16 @@
 import React, { useEffect, useState } from "react";
 import ClimaFinder from "../api/ClimaFinder";
 
+import ImagenesRegion from "./ImagenesRegion";
+
 const KEY = "3adcb288670541089c928385ad06ace4";
 const pais = "CL";
-const ClimaSection = ({ region }) => {
+const today = new Date(),
+  time = today.getHours() + ":" + today.getMinutes();
+const ClimaSection = ({ region, image }) => {
   const [pronostico, setPronostico] = useState([]);
+  const [err, setError] = useState(null);
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -14,24 +20,25 @@ const ClimaSection = ({ region }) => {
         const {
           data: { data },
         } = res;
-        console.log(data);
+
         setPronostico(data);
       } catch (error) {
-        console.log(error);
+        setError(error);
+        alert(`${time} ${error}`);
       }
     };
     fetchData();
   }, [region]);
   return (
-    <div>
-      <ul style={{ padding: "0px" }}>
+    <>
+      <div style={{ padding: "0px" }}>
         {pronostico &&
           pronostico.map(
             (
               { city_name, lat, lon, solar_rad, weather: { description } },
               i
             ) => (
-              <div key={i}>
+              <div key={i} className="mt-3">
                 <h2>{city_name}</h2>
                 <p>
                   <strong>Latitud:</strong> {lat}
@@ -40,7 +47,7 @@ const ClimaSection = ({ region }) => {
                   <strong>Longitud:</strong> {lon}
                 </p>
                 <p>
-                  <strong>Descripcion:</strong> {description}
+                  <strong>Descripción:</strong> {description}
                 </p>
                 <p>
                   <strong>Radiación Solar:</strong> {solar_rad}
@@ -48,8 +55,11 @@ const ClimaSection = ({ region }) => {
               </div>
             )
           )}
-      </ul>
-    </div>
+      </div>
+      {err
+        ? null
+        : image && image.map((im, i) => <ImagenesRegion img={im} key={i} />)}
+    </>
   );
 };
 
