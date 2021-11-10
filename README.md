@@ -1,5 +1,20 @@
 # Getting Started with Create React App
 
+### Instalación
+
+1. Clonar el repositorio
+   ```sh
+   git clone https://github.com/AndresEGV/wheater-app
+   ```
+2. Instalar dependecias NPM
+   ```sh
+   npm install o yarn
+   ```
+3. Abrir terminal en el proyecto y ejecutar el siguiente comando
+   ```js
+   npm start o yarn start
+   ```
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
